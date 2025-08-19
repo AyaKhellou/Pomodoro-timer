@@ -1,0 +1,9 @@
+@import "tailwindcss";
+.btn{
+    @apply bg-[#E86975] rounded-full text-lg w-14 h-14 cursor-pointer;
+}
+/* .aldrich-regular {
+  font-family: "Aldrich", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+} */
