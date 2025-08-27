@@ -3,6 +3,26 @@ let startButton = document.querySelector('.start');
 let pauseButton = document.querySelector('.pause');
 let restartButton = document.querySelector('.restart');
 
+let focusTime = document.querySelector('.time-btns select');
+
+let breakButtons = document.querySelectorAll('.time-btn.break');
+breakButtons.forEach(button => {
+    button.addEventListener('click', () => {
+
+        restart();
+
+        console.log(button.getAttribute('data-time'));
+
+        breakTime = parseInt(button.getAttribute('data-time'));
+
+        let sessionTime = focusTime.value;
+        
+        workAndRestSwitch(breakTime*60,"focus",sessionTime);
+        
+    });
+});
+
+
 let remainingTime;
 let endTime;
 let interval;
@@ -12,11 +32,20 @@ let pause = false;
 startButton.disabled = false;
 pauseButton.disabled = true;
 
+// progress bar
+let progressBar = document.querySelector('.progress');
 
 // notification permission request
 if ("Notification" in window) {
     Notification.requestPermission();
 }
+
+    timer.innerHTML = `${focusTime.value.toString().padStart(2,'0')}:00`;
+
+    focusTime.addEventListener('change', () => {
+        restart();
+        timer.innerHTML = `${focusTime.value.toString().padStart(2,'0')}:00`;
+    })
 
 //FUNCTIONS
 
@@ -29,14 +58,16 @@ startButton.addEventListener('click',()=>{
     startButton.classList.add('hidden');
     pauseButton.classList.remove('hidden');
 
+
+    let sessionTime = focusTime.value;
+    let breakTime = (sessionTime / 25 )* 5 ;
+    console.log(sessionTime *60);
+    console.log(breakTime);
+
     if (situation === 'focus') {
-
-        workAndRestSwitch(1500,"break",'05:00');
-
-    }
-    else if (situation === 'break') {
-
-        workAndRestSwitch(300,"focus",'25:00');
+        workAndRestSwitch(sessionTime*60,"break",breakTime);
+    }else if (situation === 'break') {
+        workAndRestSwitch(breakTime*60,"focus",sessionTime);
     }
 
 });
@@ -59,11 +90,11 @@ function workAndRestSwitch(sessionTime,sit,time) {
         endTime = Date.now() + (remainingTime * 1000);
     }
     
-
     let min = Math.floor(remainingTime / 60 );
     let sec = remainingTime % 60;
     timer.innerHTML = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2, '0')}`;
-        
+
+    
         interval = setInterval(() => {
             if (remainingTime > 0) {
 
@@ -72,6 +103,11 @@ function workAndRestSwitch(sessionTime,sit,time) {
                 let min = Math.floor(remainingTime / 60 );
                 let sec = remainingTime % 60;
                 timer.innerHTML = `${min.toString().padStart(2,'0')}:${sec.toString().padStart(2, '0')}`;
+
+                let progress = 240 - ((remainingTime * 240) / sessionTime);
+
+                progressBar.style.setProperty('--progress', `${progress}deg`);
+
                 
             }else if (remainingTime === 0) {
                 if (Notification.permission === 'granted') {
@@ -86,7 +122,7 @@ function workAndRestSwitch(sessionTime,sit,time) {
                 clearInterval(interval);
                 
                 situation = sit;
-                timer.innerHTML = time;
+                timer.innerHTML = `${time.toString().padStart(2,'0')}:00`; ;
                 pause = false;
 
                 startButton.disabled = false;
@@ -115,7 +151,10 @@ pauseButton.addEventListener('click', () =>{
 });
 
 restartButton.addEventListener('click', () => {
+    restart();
+});
 
+function restart() {
     clearInterval(interval);
 
     timer.innerHTML = '25:00';
@@ -130,4 +169,4 @@ restartButton.addEventListener('click', () => {
 
     startButton.classList.remove('hidden');
     pauseButton.classList.add('hidden');
-});
+}

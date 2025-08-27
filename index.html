@@ -13,20 +13,25 @@
     <title>Pomodoro</title>
 </head>
 <body>
-    <div class="mainTimerContainer mt-14 relative">
+    <div class="mainTimerContainer relative h-[410px]">
         <div class='oustside'>
-  <div class='progress'>
-  <div class='inside'>
-    <div class='center'></div>
-  </div>
-</div>
-</div>
-
-        <div class="pomodoro-container mx-auto w-[350px] h-[350px]  relative">
+            <div class='progress'>
+                <div class='inside'>
+                    <div class='center'>
+                        <div class="pomodoro-container w-[350px] h-[350px] relative mt-5">
+                            <img class="tomato w-full h-full" src="./imgs/tomato(1).png" alt="tomato">
+                            <div class="timer text-7xl text-center absolute top-[62%] left-1/2 -translate-1/2 font-[Aldrich]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- <div class="pomodoro-container mx-auto w-[350px] h-[350px]  relative">
             <img class="tomato w-full h-full" src="./imgs/tomato(1).png" alt="tomato">
             <div class="timer text-7xl text-center absolute top-[62%] left-1/2 -translate-1/2 font-[Aldrich]">25:00</div>
-        </div>
-        <div class="buttons flex justify-center gap-5 items-center m-8">
+        </div> -->
+        <div class="buttons flex justify-center gap-5 items-center mb-8">
             <button class="start btn">
                 <i class="fa-solid fa-play text-4xl mr-1"></i>
             </button>
@@ -41,10 +46,10 @@
     <div class="time-btns mx-auto text-center font-[Alatsi] ">
         <select class="time-btn border-red-400 border-4 px-4 py-2 rounded mr-4" name="timeDropDown" id="dropDown">
             <option value="25" selected>25 min</option>
-            <option value="60">1 hour</option>
+            <option value="50">50 min</option>
         </select>
-        <button class="time-btn" data-time="5">Short Break</button>
-        <button class="time-btn" data-time="15">Long Break</button>
+        <button class="time-btn break" data-time="5">Short Break</button>
+        <button class="time-btn break" data-time="10">Long Break</button>
     </div>
     <script src="main.js"></script>
 </body>
